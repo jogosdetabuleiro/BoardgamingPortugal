@@ -3,14 +3,14 @@ from tkinter import messagebox
 from tkinter import ttk
 import pandas as pd
 
-class LocalExcelViewerApp:
+class BoardGamersPortugalApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Visualizador de Dados Excel Local")
         self.root.geometry("800x400")
 
         # Nome do arquivo Excel local
-        self.excel_file = "dados.xlsx"
+        self.excel_file = "Boardgamers em Portugal_BD.xlsx"
 
         # Botão para carregar e exibir os dados
         self.load_button = tk.Button(root, text="Carregar Dados do Excel Local", command=self.load_data)
@@ -62,5 +62,5 @@ class LocalExcelViewerApp:
 # Inicializa a aplicação
 if __name__ == "__main__":
     root = tk.Tk()
-    app = LocalExcelViewerApp(root)
+    app = BoardGamersPortugalApp(root)
     root.mainloop()
