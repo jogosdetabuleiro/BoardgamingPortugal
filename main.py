@@ -13,7 +13,7 @@ html_template = """
 <html lang="pt">
 <head>
   <meta charset="utf-8">
-  <title>Visualizador de Dados Excel</title>
+  <title>Board Gamers Portugal</title>
   <style>
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
@@ -22,7 +22,7 @@ html_template = """
   </style>
 </head>
 <body>
-  <h1>Visualizador de Dados Excel</h1>
+  <h1>Board Gamers Portugal</h1>
 
   <!-- Selecionar Sheet -->
   <form method="get">
