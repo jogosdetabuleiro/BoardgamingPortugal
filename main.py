@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 from io import BytesIO
 
-class OnlineExcelViewerApp:
+class BoardgamingPortugalApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Visualizador de Dados Excel Online")
