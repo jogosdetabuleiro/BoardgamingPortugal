@@ -26,7 +26,7 @@ html_template = """
 
   <!-- Selecionar Sheet -->
   <form method="get">
-    <label for="sheet">Escolha a sheet:</label>
+    <label for="sheet">Escolha o tópico:</label>
     <select name="sheet" id="sheet" onchange="this.form.submit()">
       {% for sheet_name in sheet_names %}
         <option value="{{ sheet_name }}" {% if sheet_name == current_sheet %}selected{% endif %}>{{ sheet_name }}</option>
@@ -37,7 +37,7 @@ html_template = """
   <!-- Formulário de Filtro -->
   <form method="get">
     <input type="hidden" name="sheet" value="{{ current_sheet }}">
-    <label for="column">Escolha uma coluna para filtrar:</label>
+    <label for="column">Filtrar por:</label>
     <select name="column" id="column">
       <option value="">--Selecione uma Coluna--</option>
       {% for col in columns %}
