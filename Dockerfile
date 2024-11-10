@@ -11,7 +11,7 @@ COPY . /app
 RUN pip install -r requirements.txt
 
 # Define a variável de ambiente para o Flask
-ENV FLASK_APP=app.py
+ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Expõe a porta 8080 para o Fly.io
