@@ -1,0 +1,24 @@
+app = "boardgamingportugal"  # Substitua pelo nome da sua aplicação no Fly.io
+
+[build]
+  image = "python:3.9"  # Imagem do Docker para Python 3.9, ou a versão de Python que você está usando
+
+[env]
+  PORT = "8080"  # Porta que o Fly.io usa para expor a aplicação
+
+[[services]]
+  internal_port = 8080  # Porta interna em que o Flask está escutando
+  protocol = "tcp"
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
