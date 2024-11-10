@@ -4,7 +4,7 @@ from tkinter import ttk
 import pandas as pd
 import webbrowser
 
-class BoardGamingPortugalApp:
+class BoardGamersPortugalApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Visualizador de Dados Excel Local")
@@ -92,39 +92,33 @@ class BoardGamingPortugalApp:
         if df.empty:
             return
 
-        # Cria o widget Treeview para exibir os dados
-        tree = ttk.Treeview(self.table_frame)
-        tree.pack(fill="both", expand=True)
+        # Cria o widget Text para exibir os dados
+        text_widget = tk.Text(self.table_frame, wrap="none")
+        text_widget.pack(fill="both", expand=True)
 
-        # Configura as colunas no Treeview
-        tree["columns"] = list(df.columns) + ["Open Link"]
-        tree["show"] = "headings"  # Remove a primeira coluna vazia
+        # Adiciona cabeçalhos das colunas
+        headers = " | ".join(df.columns) + "\n"
+        text_widget.insert("end", headers)
+        text_widget.insert("end", "-" * len(headers) + "\n")
 
-        # Define os cabeçalhos das colunas
-        for column in df.columns:
-            tree.heading(column, text=column)
-            tree.column(column, anchor="center")
-
-        # Adiciona uma coluna para links (com botão)
-        tree.heading("Open Link", text="Open Link")
-        tree.column("Open Link", anchor="center", width=100)
-
-        # Insere os dados linha por linha
-        for idx, row in df.iterrows():
-            values = list(row)
-            # Adiciona um botão "Open Link" para cada linha que tenha URLs
-            links = [val for val in values if isinstance(val, str) and (val.startswith("http") or "maps.google.com" in val)]
-            open_link_text = "Open" if links else ""
-            item_id = tree.insert("", "end", values=values + [open_link_text])
-
-            # Armazena a URL para cada linha que tem link
-            if links:
-                # Vincula o clique ao link
-                tree.tag_bind(item_id, "<Double-1>", lambda e, link=links[0]: self.open_link(link))
+        # Insere os dados linha por linha, transformando URLs em links
+        for _, row in df.iterrows():
+            row_text = []
+            for value in row:
+                if isinstance(value, str) and (value.startswith("http") or "maps.google.com" in value):
+                    # Formata o link e adiciona como clicável
+                    start = text_widget.index("end")
+                    text_widget.insert("end", value + " ")
+                    text_widget.tag_add(value, start, text_widget.index("end-1c"))
+                    text_widget.tag_bind(value, "<Button-1>", lambda e, v=value: self.open_link(v))
+                    text_widget.tag_config(value, foreground="blue", underline=True)
+                else:
+                    row_text.append(str(value))
+            text_widget.insert("end", " | ".join(row_text) + "\n")
 
         # Adiciona uma barra de rolagem
-        scrollbar = ttk.Scrollbar(self.table_frame, orient="vertical", command=tree.yview)
-        tree.configure(yscroll=scrollbar.set)
+        scrollbar = ttk.Scrollbar(self.table_frame, orient="vertical", command=text_widget.yview)
+        text_widget.configure(yscroll=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
 
     def open_link(self, url):
@@ -133,5 +127,5 @@ class BoardGamingPortugalApp:
 # Inicializa a aplicação
 if __name__ == "__main__":
     root = tk.Tk()
-    app = BoardGamingPortugalApp(root)
+    app = BoardGamersPortugalApp(root)
     root.mainloop()
