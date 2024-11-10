@@ -7,7 +7,7 @@ app = Flask(__name__)
 excel_file = "Boardgamers em Portugal_BD.xlsx"
 sheets_dict = pd.read_excel(excel_file, sheet_name=None)
 
-# HTML Template com links clicáveis
+# HTML Template com filtros e links clicáveis
 html_template = """
 <!doctype html>
 <html lang="pt">
@@ -33,7 +33,22 @@ html_template = """
       {% endfor %}
     </select>
   </form>
-  
+
+  <!-- Formulário de Filtro -->
+  <form method="get">
+    <input type="hidden" name="sheet" value="{{ current_sheet }}">
+    <label for="column">Escolha uma coluna para filtrar:</label>
+    <select name="column" id="column">
+      <option value="">--Selecione uma Coluna--</option>
+      {% for col in columns %}
+        <option value="{{ col }}" {% if col == filter_column %}selected{% endif %}>{{ col }}</option>
+      {% endfor %}
+    </select>
+    <label for="filter_value">Valor do Filtro:</label>
+    <input type="text" name="filter_value" value="{{ filter_value }}">
+    <button type="submit">Aplicar Filtro</button>
+  </form>
+
   <!-- Exibir Tabela -->
   <table>
     <thead>
@@ -67,9 +82,15 @@ html_template = """
 def index():
     # Pega o nome da sheet selecionada (ou a primeira por padrão)
     sheet_name = request.args.get("sheet", list(sheets_dict.keys())[0])
-    
-    # Obtém os dados da sheet escolhida
     df = sheets_dict[sheet_name].fillna("")  # Substitui NaN por string vazia
+
+    # Pega os valores de filtro selecionados
+    filter_column = request.args.get("column", "")
+    filter_value = request.args.get("filter_value", "")
+
+    # Aplica o filtro, se um valor de filtro foi fornecido
+    if filter_column and filter_value:
+        df = df[df[filter_column].astype(str).str.contains(filter_value, case=False, na=False)]
 
     # Prepara os dados para exibição no HTML
     columns = df.columns.tolist()
@@ -81,7 +102,9 @@ def index():
         columns=columns,
         data=data,
         sheet_names=sheet_names,
-        current_sheet=sheet_name
+        current_sheet=sheet_name,
+        filter_column=filter_column,
+        filter_value=filter_value
     )
 
 if __name__ == "__main__":
