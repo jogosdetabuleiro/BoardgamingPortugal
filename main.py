@@ -42,8 +42,8 @@ class BoardGamersPortugalApp:
 
     def load_data(self):
         try:
-            # Carrega o arquivo Excel em um DataFrame e remove valores NaN
-            df = pd.read_excel(self.excel_file, engine='openpyxl').dropna(how="all")
+            # Carrega o arquivo Excel em um DataFrame, removendo linhas totalmente vazias e substituindo NaN por string vazia
+            df = pd.read_excel(self.excel_file, engine='openpyxl').dropna(how="all").fillna("")
             return df
         except FileNotFoundError:
             messagebox.showerror("Erro", f"Arquivo '{self.excel_file}' não encontrado.")
