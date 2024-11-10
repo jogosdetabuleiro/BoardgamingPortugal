@@ -11,7 +11,8 @@ class BoardgamingPortugalApp:
         self.root.geometry("600x400")
 
         # URL do arquivo Excel
-        self.excel_url = "https://tinyurl.com/DocBGs"
+#        self.excel_url = "https://tinyurl.com/DocBGs"
+         self.excel_url = "https://docs.google.com/spreadsheets/d/1ZPmYhmTZe-YoNHTMvTCuzZs27gI0xQsI7FT13xpKmy0/edit?gid=0#gid=0"
 
         # Botão para carregar e exibir os dados
         self.load_button = tk.Button(root, text="Boardgaming em Portugal", command=self.load_data)
