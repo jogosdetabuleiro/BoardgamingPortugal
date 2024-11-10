@@ -1,7 +1,7 @@
 app = "boardgamingportugal"  # Substitua pelo nome da sua aplicação no Fly.io
 
-[build]
-  image = "python:3.9"  # Imagem do Docker para Python 3.9, ou a versão de Python que você está usando
+#[build]
+#  image = "python:3.9"  # Imagem do Docker para Python 3.9, ou a versão de Python que você está usando
 
 [env]
   PORT = "8080"  # Porta que o Fly.io usa para expor a aplicação
